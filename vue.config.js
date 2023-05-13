@@ -30,6 +30,13 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    proxy: {
+      '/api': {
+        // target: 'http://42.192.129.12:3001/', // 跨域请求的地址
+        target: 'http://ihrm.itheima.net/',
+        changeOrigin: true
+      }
+    },
     port: port,
     open: true,
     overlay: {
