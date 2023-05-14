@@ -71,8 +71,8 @@ export default {
     return {
       loading: false,
       loginForm: {
-        mobile: '13800000002',
-        password: '123456'
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? '123456' : ''
       },
       passwordType: 'password',
       loginFormRules: {
@@ -81,7 +81,8 @@ export default {
             required: true,
             message: '请输入手机号'
           }, {
-            validator: validateMobile
+            validator: validateMobile,
+            trigger: 'blur'
           }
         ],
         password: [{

@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import store from '@/store'
-import { getToken } from '@/utils/auth'
+import router from '@/router'
+import { getTimeStamp } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -10,16 +11,29 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+const timeOut = 60 * 60 * 1000
+
+function isCheckTomeOut() {
+  const currentTime = Date.now()
+  const timeStamp = getTimeStamp()
+  return (currentTime - timeStamp) > timeOut
+}
+
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
 
     if (store.getters.token) {
+      if (isCheckTomeOut()) {
+        store.dispatch('user/logout')
+        router.push('/login')
+        return Promise.reject(new Error('token超时了'))
+      }
       // let each request carry token
       // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      config.headers['X-Token'] = getToken()
+      // config.headers['X-Token'] = getToken()
+      config.headers['Authorization'] = 'Bearer ' + store.getters.token
     }
     return config
   },
