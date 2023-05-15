@@ -93,11 +93,16 @@ service.interceptors.response.use(
     // }
   },
   error => {
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    if (error.response && error.response.data && error.response.data.code === 10002) {
+      store.dispatch('user/logout')
+      router.push('/login')
+    } else {
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      })
+    }
     return Promise.reject(error)
   }
 )

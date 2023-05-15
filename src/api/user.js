@@ -30,10 +30,15 @@ export function getUserDetailById(id) {
   })
 }
 
-export function getInfo(token) {
-  return request({})
-}
-
-export function logout() {
-  return request({})
+/**
+ * 更新密码
+ * @param data
+ * @returns {*}
+ */
+export function updatePasswordAPI(data) {
+  return request({
+    url: '/sys/user/updatePass',
+    method: 'put',
+    data
+  })
 }
