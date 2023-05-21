@@ -35,7 +35,7 @@ export default {
         commit('SET_TOKEN', res)
         setTimeStamp()
       } catch (err) {
-        console.log(err)
+        throw new Error(err)
       }
     },
     // 登出

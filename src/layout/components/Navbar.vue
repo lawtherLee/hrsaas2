@@ -13,8 +13,10 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
-            v-if="avatar"
-            :src="avatar"
+            v-if="userAvatar"
+            v-imgErr="defaultAvatar"
+            :src="userAvatar"
+            alt=""
             class="user-avatar"
           >
           <span v-else class="username">{{ userName?.charAt(0) }}</span>
@@ -61,6 +63,7 @@
 import { mapGetters } from 'vuex' // import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import { updatePasswordAPI } from '@/api/user'
+import defaultAvatar from '@/assets/common/head.jpg'
 
 export default {
   components: {
@@ -69,6 +72,7 @@ export default {
   },
   data() {
     return {
+      defaultAvatar: defaultAvatar,
       showDialog: false,
       passForm: {
         oldPassword: '', // 旧密码
@@ -104,7 +108,7 @@ export default {
     ...mapGetters([
       'sidebar',
       'userName',
-      'avatar'
+      'userAvatar'
     ])
   },
   methods: {

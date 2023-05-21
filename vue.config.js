@@ -33,7 +33,8 @@ module.exports = {
     proxy: {
       '/api': {
         // target: 'http://42.192.129.12:3001/', // 跨域请求的地址
-        target: 'http://ihrm.itheima.net/',
+        target: 'https://heimahr.itheima.net/',
+        // target: 'http://ihrm.itheima.net',
         changeOrigin: true
       }
     },

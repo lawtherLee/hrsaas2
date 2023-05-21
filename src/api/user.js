@@ -14,7 +14,7 @@ export function login(data) {
  */
 export function getUserInfoAPI() {
   return request({
-    url: '/sys/profile',
+    url: 'sys/profile',
     method: 'post'
   })
 }
