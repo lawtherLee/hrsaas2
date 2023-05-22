@@ -55,24 +55,24 @@
 
 <script>
 
-import { validMobile } from '@/utils/validate'
+// import { validMobile } from '@/utils/validate'
 
 export default {
   name: 'Login',
   data() {
     // 抽离的手机校验
-    const validateMobile = (rule, val, cb) => {
-      if (!validMobile(val)) {
-        cb(new Error('手机格式不正确'))
-      } else {
-        cb()
-      }
-    }
+    // const validateMobile = (rule, val, cb) => {
+    //   if (!validMobile(val)) {
+    //     cb(new Error('手机格式不正确'))
+    //   } else {
+    //     cb()
+    //   }
+    // }
     return {
       loading: false,
       loginForm: {
-        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
-        password: process.env.NODE_ENV === 'development' ? '123456' : ''
+        mobile: process.env.NODE_ENV === 'development' ? '12000000002' : '',
+        password: process.env.NODE_ENV === 'development' ? 'HmR02!0%23' : ''
       },
       passwordType: 'password',
       loginFormRules: {
@@ -80,10 +80,11 @@ export default {
           {
             required: true,
             message: '请输入手机号'
-          }, {
-            validator: validateMobile,
-            trigger: 'blur'
           }
+          // {
+          //   validator: validateMobile,
+          //   trigger: 'blur'
+          // }
         ],
         password: [{
           required: true,

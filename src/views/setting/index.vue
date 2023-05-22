@@ -2,12 +2,12 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'salarys'
+  name: 'index'
 })
 </script>
 
 <template>
-  <div>薪资管理</div>
+  <div>设置</div>
 </template>
 
 <style lang="scss" scoped>
