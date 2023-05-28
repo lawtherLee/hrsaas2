@@ -71,8 +71,8 @@ export default {
     return {
       loading: false,
       loginForm: {
-        mobile: process.env.NODE_ENV === 'development' ? '12000000002' : '',
-        password: process.env.NODE_ENV === 'development' ? 'HmR02!0%23' : ''
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? 'hm#qd@23!' : ''
       },
       passwordType: 'password',
       loginFormRules: {
