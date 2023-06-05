@@ -11,6 +11,7 @@ export default defineComponent({
 
   data() {
     return {
+      currentNodeId: '',
       departs: [],
       defaultProps: {
         children: 'children',
@@ -29,7 +30,6 @@ export default defineComponent({
       try {
         this.loading = true
         const res = await getDepartmentsAPI()
-        console.log(res)
         this.departs = tranListToTreeData(res.depts, '') // 转换树形结构需要的数据
         this.company = {
           name: res.companyName,
@@ -80,6 +80,7 @@ export default defineComponent({
     <!--    新增子部门弹窗-->
     <add-dept
       ref="addDept"
+      :current-node-id="currentNodeId"
       :dialog-visible.sync="dialogVisible"
       :tree-node="currentNode"
     />

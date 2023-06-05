@@ -46,13 +46,3 @@ export function delDepartmentsAPI(id) {
   })
 }
 
-/**
- * 获取部门详情
- * @param id
- * @returns {AxiosPromise}
- */
-export function getDepartmentDetailAPI(id) {
-  return request({
-    url: `/company/department/${id}`
-  })
-}
