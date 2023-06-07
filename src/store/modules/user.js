@@ -13,9 +13,7 @@ export default {
       state.token = token
       setToken(token)
     },
-    SET_TIME(state, time) {
-      state.createTime = time
-    },
+
     REMOVE_TOKEN(state) {
       state.token = null
       removeToken()

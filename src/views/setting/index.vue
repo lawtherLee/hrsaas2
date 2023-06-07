@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
-import { addRoleAPI, deleteRoleAPI, getRoleListAPI } from '@/api/setting'
+import { addRoleAPI, deleteRoleAPI, getCompanyInfoAPI, getRoleListAPI, updateRoleAPI } from '@/api/setting'
 
 export default defineComponent({
   name: 'index',
@@ -26,7 +26,8 @@ export default defineComponent({
           message: '请填写角色名称',
           trigger: 'blur'
         }
-      }
+      },
+      companyForm: {}
     }
   },
 
@@ -35,12 +36,41 @@ export default defineComponent({
       const { total, rows } = await getRoleListAPI(this.page)
       this.page.total = total
       this.list = rows
+      // 响应式添加属性
+      this.list.forEach(item => {
+        this.$set(item, 'isEdit', false)
+        // 数据缓存
+        this.$set(item, 'editRow', {
+          name: item.name,
+          description: item.description
+        })
+      })
       console.log(this.list)
     },
     changePage(newPage) {
       this.page.page = newPage // 将当前页码赋值给当前的最新页码
       this.getRoleList()
     },
+    // 改
+    btnEdit(ev) {
+      console.log(ev)
+      ev.isEdit = true
+    },
+    async btnEditOK(ev) {
+      console.log(ev)
+      if (ev.editRow.name && ev.editRow.description) {
+        await updateRoleAPI({ ...ev.editRow, id: ev.id })
+        this.$message.success('更新成功')
+        // ev.isEdit = false 这样会引起esLint误判
+        Object.assign(ev, {
+          ...ev.editRow,
+          isEdit: false
+        })
+      } else {
+        this.$message.warning('角色和描述不能为空')
+      }
+    },
+
     // 删
     async deleteRole(id) {
       try {
@@ -74,11 +104,16 @@ export default defineComponent({
       }
       this.$refs.form.resetFields()
       this.dialogVisible = false
+    },
+    // 获取公司信息
+    async getCompanyInfo() {
+      this.companyForm = await getCompanyInfoAPI(this.$store.state.user.userInfo.companyId)
     }
   },
 
   created() {
     this.getRoleList()
+    this.getCompanyInfo()
   }
 })
 </script>
@@ -97,13 +132,31 @@ export default defineComponent({
           <!--          表格-->
           <el-table :border="false" :data="list">
             <el-table-column align="center" label="序号" type="index" width="120" />
-            <el-table-column align="center" label="角色名称" prop="name" width="240" />
-            <el-table-column align="center" label="描述" prop="description" />
+            <el-table-column align="center" label="角色名称" prop="name" width="240">
+              <template v-slot="{row}">
+                <el-input v-if="row.isEdit" v-model="row.editRow.name" size="mini" />
+                <span v-else>{{ row.name }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column align="center" label="描述" prop="description">
+              <template v-slot="{row}">
+                <el-input v-if="row.isEdit" v-model="row.editRow.description" size="mini" />
+                <span v-else> {{ row.description }}</span>
+              </template>
+            </el-table-column>
             <el-table-column align="center" label="操作">
               <template v-slot="{row}">
-                <el-button size="small" type="success">分配权限</el-button>
-                <el-button size="small" type="primary">编辑</el-button>
-                <el-button size="small" type="danger" @click="deleteRole(row.id)">删除</el-button>
+                <!--              编辑状态-->
+                <template v-if="row.isEdit">
+                  <el-button size="mini" type="primary" @click="btnEditOK(row)">确定</el-button>
+                  <el-button size="mini" @click="row.isEdit = false">取消</el-button>
+                </template>
+                <!--                非编辑状态-->
+                <template v-else>
+                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="primary" @click="btnEdit(row)">编辑</el-button>
+                  <el-button size="small" type="danger" @click="deleteRole(row.id)">删除</el-button>
+                </template>
               </template>
             </el-table-column>
           </el-table>
@@ -119,10 +172,30 @@ export default defineComponent({
           </el-row>
         </el-tab-pane>
         <el-tab-pane label="公司信息">
-          公司信息
+          <el-alert
+            :closable="false"
+            show-icon
+            title="对公司名称、公司地址、营业执照、公司地区的更新，将使得公司资料被重新审核，请谨慎修改"
+            type="info"
+          />
+          <el-form label-width="120px" style="margin-top:50px">
+            <el-form-item label="公司名称">
+              <el-input v-model="companyForm.name" disabled style="width:400px" />
+            </el-form-item>
+            <el-form-item label="公司地址">
+              <el-input v-model="companyForm.companyAddress" disabled style="width:400px" />
+            </el-form-item>
+            <el-form-item label="邮箱">
+              <el-input v-model="companyForm.mailbox" disabled style="width:400px" />
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input v-model="companyForm.remarks" :rows="3" disabled style="width:400px" type="textarea" />
+            </el-form-item>
+          </el-form>
         </el-tab-pane>
       </el-tabs>
     </el-card>
+
     <!--    弹窗-->
     <el-dialog :visible.sync="dialogVisible" title="新增角色" width="30%" @close="btnCancel">
       <el-form ref="form" :model="roleForm" :rules="roleFormRules" label-width="80px">

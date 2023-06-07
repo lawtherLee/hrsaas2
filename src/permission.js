@@ -19,10 +19,10 @@ router.beforeEach(async(to, from, next) => {
       next('/')
       NProgress.done()
     } else {
-      next()
       if (!store.getters.userId) { // 读取不到用户id才发请求重新获取，解决重复获取
         await store.dispatch('user/getUserInfo') // 第一时间获取用户信息
       }
+      next()
     }
   } else {
     if (whiteList.includes(to.path)) { // 在白名单直接放行

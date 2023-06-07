@@ -31,3 +31,24 @@ export function addRoleAPI(data) {
     method: 'post'
   })
 }
+
+/**
+ * 获取公司信息
+ * **/
+export function getCompanyInfoAPI(companyId) {
+  return request({
+    url: `/company/${companyId}`
+  })
+}
+
+/**
+ * 更新角色
+ * ***/
+
+export function updateRoleAPI(data) {
+  return request({
+    url: `/sys/role/${data.id}`,
+    method: 'put',
+    data
+  })
+}
