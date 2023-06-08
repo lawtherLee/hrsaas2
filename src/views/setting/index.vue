@@ -51,13 +51,12 @@ export default defineComponent({
       this.page.page = newPage // 将当前页码赋值给当前的最新页码
       this.getRoleList()
     },
+
     // 改
     btnEdit(ev) {
-      console.log(ev)
       ev.isEdit = true
     },
     async btnEditOK(ev) {
-      console.log(ev)
       if (ev.editRow.name && ev.editRow.description) {
         await updateRoleAPI({ ...ev.editRow, id: ev.id })
         this.$message.success('更新成功')
@@ -76,12 +75,15 @@ export default defineComponent({
       try {
         await this.$confirm('确认删除该角色吗')
         await deleteRoleAPI(id)
-        await this.getRoleList()
         this.$message.success('删除成功')
+        // 删除的是最后一个
+        if (this.list.length === 1) this.page.page--
+        await this.getRoleList()
       } catch (err) {
         console.log(err)
       }
     },
+
     // 增
     async addRole() {
       try {
