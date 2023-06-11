@@ -102,9 +102,10 @@ export default {
   methods: {
     showPwd() {
       this.passwordType === 'password' ? this.passwordType = '' : this.passwordType = 'password'
-      // this.$nextTick(() => {
-      //   this.$refs.password.focus()
-      // })
+      // 点小眼睛获取焦点
+      this.$nextTick(() => {
+        this.$refs.pwd.focus()
+      })
     },
     async onLogin() {
       try {

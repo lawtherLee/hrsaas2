@@ -14,6 +14,12 @@ import '@/permission' // permission control
 import * as directives from '@/directives'
 
 import Component from '@/components'
+import * as filters from '@/filters'
+
+// 全局注册过滤器
+for (const key in filters) {
+  Vue.filter(key, filters[key])
+}
 
 Vue.use(Component) // 注册自己的插件
 
