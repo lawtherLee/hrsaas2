@@ -13,6 +13,7 @@ const service = axios.create({
 
 const timeOut = 60 * 60 * 1000
 
+// token过期时间
 function isCheckTomeOut() {
   const currentTime = Date.now()
   const timeStamp = getTimeStamp()

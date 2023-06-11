@@ -29,3 +29,14 @@ export function delEmployeeAPI(id) {
     method: 'delete'
   })
 }
+
+/** **
+ *  新增员工的接口
+ * **/
+export function addEmployeeAPI(data) {
+  return request({
+    method: 'post',
+    url: '/sys/user',
+    data
+  })
+}

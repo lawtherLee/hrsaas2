@@ -2,10 +2,12 @@
 import { defineComponent } from 'vue'
 import { delEmployeeAPI, getEmployeeListAPI } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
-import { formatTime } from '../../filters'
+import { formatTime } from '@/filters'
+import AddEmployee from '@/views/employees/components/add-employee.vue'
 
 export default defineComponent({
   name: 'index',
+  components: { AddEmployee },
   data() {
     return {
       loading: false,
@@ -14,7 +16,8 @@ export default defineComponent({
         page: 1,
         size: 10,
         total: 0
-      }
+      },
+      visible: false
     }
   },
   methods: {
@@ -53,7 +56,7 @@ export default defineComponent({
         await this.getEmployeeList()
         this.$message.success('删除成功')
       } catch (err) {
-
+        console.log(err)
       }
     }
   },
@@ -74,7 +77,7 @@ export default defineComponent({
         <template v-slot:after>
           <el-button size="small" type="warning">导入</el-button>
           <el-button size="small" type="danger">导出</el-button>
-          <el-button size="small" type="primary">新增员工</el-button>
+          <el-button size="small" type="primary" @click="visible = true">新增员工</el-button>
         </template>
       </page-tools>
       <!-- 放置表格和分页 -->
@@ -118,6 +121,8 @@ export default defineComponent({
         </el-row>
       </el-card>
     </div>
+    <!--    弹层-->
+    <add-employee :visible.sync="visible" />
   </div>
 </template>
 
