@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'index',
+  name: 'PageTools',
   props: {
     showBefore: {
       type: Boolean,

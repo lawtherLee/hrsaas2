@@ -1,5 +1,13 @@
 // 员工
 export default {
+  // 导入员工数据映射表
+  excelMapKeyPath: {
+    '入职日期': 'timeOfEntry',
+    '姓名': 'username',
+    '工号': 'workNumber',
+    '手机号': 'mobile',
+    '转正日期': 'correctionTime'
+  },
   // 聘用形式
   hireType: [
     {

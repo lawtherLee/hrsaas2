@@ -49,6 +49,7 @@ export default defineComponent({
         await this.$refs.addEmployee.validate(async vald => {
           if (vald) {
             await addEmployeeAPI(this.formData)
+            this.$message.success('新增员工成功')
             this.$parent.getEmployeeList()
             this.$parent.visible = false
           }

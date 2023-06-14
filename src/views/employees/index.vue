@@ -75,7 +75,7 @@ export default defineComponent({
         </template>
         <!--        <span slot="before">共166条记录</span>-->
         <template v-slot:after>
-          <el-button size="small" type="warning">导入</el-button>
+          <el-button size="small" type="warning" @click="$router.push('/import')">导入</el-button>
           <el-button size="small" type="danger">导出</el-button>
           <el-button size="small" type="primary" @click="visible = true">新增员工</el-button>
         </template>
