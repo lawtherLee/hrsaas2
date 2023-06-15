@@ -58,6 +58,8 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
+    // 判断是否二进制
+    if (response.data instanceof Blob) return response.data
     const { success, message, data } = response.data
     if (success) {
       return data
@@ -65,33 +67,6 @@ service.interceptors.response.use(
       Message.error(message)
       return Promise.reject(new Error(message))
     }
-    // const res = response.data
-    //
-    // // if the custom code is not 20000, it is judged as an error.
-    // if (res.code !== 10000) {
-    //   Message({
-    //     message: res.message || 'Error',
-    //     type: 'error',
-    //     duration: 5 * 1000
-    //   })
-
-    // 50008: Illegal token; 50012: Other clients logged in; 50014: Token expired;
-    //   if (res.code === 50008 || res.code === 50012 || res.code === 50014) {
-    //     // to re-login
-    //     MessageBox.confirm('You have been logged out, you can cancel to stay on this page, or log in again', 'Confirm logout', {
-    //       confirmButtonText: 'Re-Login',
-    //       cancelButtonText: 'Cancel',
-    //       type: 'warning'
-    //     }).then(() => {
-    //       store.dispatch('user/resetToken').then(() => {
-    //         location.reload()
-    //       })
-    //     })
-    //   }
-    //   return Promise.reject(new Error(res.message || 'Error'))
-    // } else {
-    //   return res
-    // }
   },
   error => {
     if (error.response && error.response.data && error.response.data.code === 10002) {

@@ -1,9 +1,10 @@
 <script>
 import { defineComponent } from 'vue'
-import { delEmployeeAPI, getEmployeeListAPI } from '@/api/employees'
+import { delEmployeeAPI, exportEmployeeAPI, getEmployeeListAPI } from '@/api/employees'
 import EmployeeEnum from '@/api/constant/employees'
 import { formatTime } from '@/filters'
 import AddEmployee from '@/views/employees/components/add-employee.vue'
+import FileSaver from 'file-saver' // 员工导出
 
 export default defineComponent({
   name: 'index',
@@ -22,6 +23,12 @@ export default defineComponent({
   },
   methods: {
     formatTime,
+    // 导出excel
+    async exportEmployee() {
+      const result = await exportEmployeeAPI()
+      console.log(result)
+      FileSaver.saveAs(result, '员工信息表.xlsx')
+    },
     // 获取列表数据
     async getEmployeeList() {
       this.loading = true
@@ -76,7 +83,7 @@ export default defineComponent({
         <!--        <span slot="before">共166条记录</span>-->
         <template v-slot:after>
           <el-button size="small" type="warning" @click="$router.push('/import')">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button size="small" type="danger" @click="exportEmployee">导出</el-button>
           <el-button size="small" type="primary" @click="visible = true">新增员工</el-button>
         </template>
       </page-tools>
