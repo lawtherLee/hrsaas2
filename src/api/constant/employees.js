@@ -1,5 +1,16 @@
 // 员工
 export default {
+  // 转正数据
+  stateOfCorrection: [
+    {
+      id: '1',
+      value: '转正'
+    },
+    {
+      id: '2',
+      value: '未转正'
+    }
+  ],
   // 导入员工数据映射表
   excelMapKeyPath: {
     '入职日期': 'timeOfEntry',

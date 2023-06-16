@@ -4,7 +4,8 @@ import { delEmployeeAPI, exportEmployeeAPI, getEmployeeListAPI } from '@/api/emp
 import EmployeeEnum from '@/api/constant/employees'
 import { formatTime } from '@/filters'
 import AddEmployee from '@/views/employees/components/add-employee.vue'
-import FileSaver from 'file-saver' // 员工导出
+import FileSaver from 'file-saver'
+import router from '@/router' // 员工导出
 
 export default defineComponent({
   name: 'index',
@@ -22,6 +23,9 @@ export default defineComponent({
     }
   },
   methods: {
+    router() {
+      return router
+    },
     formatTime,
     // 导出excel
     async exportEmployee() {
@@ -89,44 +93,51 @@ export default defineComponent({
       </page-tools>
       <!-- 放置表格和分页 -->
       <el-card v-loading="loading">
-        <el-table :data="list" border>
-          <el-table-column label="序号" sortable="" type="index" />
-          <el-table-column label="姓名" prop="username" sortable="" />
-          <el-table-column label="工号" prop="workNumber" sortable="" />
-          <el-table-column :formatter="formatEmployment" label="聘用形式" prop="formOfEmployment" sortable="" />
-          <el-table-column label="部门" prop="departmentName" sortable="" />
-          <el-table-column label="入职时间" prop="timeOfEntry" sortable="">
-            <template v-slot="{row}">
-              {{ row.timeOfEntry | formatTime }}
-            </template>
-          </el-table-column>
-          <el-table-column label="账户状态" prop="enableState" sortable="">
-            <template v-slot="{row}">
-              <el-switch :value="row.enableState === 1" />
-            </template>
-          </el-table-column>
-          <el-table-column fixed="right" label="操作" sortable="" width="280">
-            <template v-slot="{row}">
-              <el-button size="small" type="text">查看</el-button>
-              <el-button size="small" type="text">转正</el-button>
-              <el-button size="small" type="text">调岗</el-button>
-              <el-button size="small" type="text">离职</el-button>
-              <el-button size="small" type="text">角色</el-button>
-              <el-button size="small" type="text" @click="delEmployee(row.id)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+        <keep-alive>
+          <el-table :data="list" border>
+            <el-table-column label="序号" sortable="" type="index" />
+            <el-table-column label="姓名" prop="username" sortable="" />
+            <el-table-column label="工号" prop="workNumber" sortable="" />
+            <el-table-column :formatter="formatEmployment" label="聘用形式" prop="formOfEmployment" sortable="" />
+            <el-table-column label="部门" prop="departmentName" sortable="" />
+            <el-table-column label="入职时间" prop="timeOfEntry" sortable="">
+              <template v-slot="{row}">
+                {{ row.timeOfEntry | formatTime }}
+              </template>
+            </el-table-column>
+            <el-table-column label="账户状态" prop="enableState" sortable="">
+              <template v-slot="{row}">
+                <el-switch :value="row.enableState === 1" />
+              </template>
+            </el-table-column>
+            <el-table-column fixed="right" label="操作" sortable="" width="280">
+              <template v-slot="{row}">
+                <el-button size="small" type="text" @click="$router.push('/employees/detail/' + row.id)">查看
+                </el-button>
+                <el-button size="small" type="text">转正</el-button>
+                <el-button size="small" type="text">调岗</el-button>
+                <el-button size="small" type="text">离职</el-button>
+                <el-button size="small" type="text">角色</el-button>
+                <el-button size="small" type="text" @click="delEmployee(row.id)">删除</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </keep-alive>
         <!-- 分页组件 -->
-        <el-row align="middle" justify="center" style="height: 60px" type="flex">
-          <el-pagination
-            :current-page="page.page"
-            :page-size="page.size"
-            :total="page.total"
-            layout="prev, pager, next"
-            @current-change="changePage"
-          />
-        </el-row>
+        <keep-alive>
+          <el-row align="middle" justify="center" style="height: 60px" type="flex">
+            <el-pagination
+              :current-page="page.page"
+              :page-size="page.size"
+              :total="page.total"
+              layout="prev, pager, next"
+              @current-change="changePage"
+            />
+          </el-row>
+        </keep-alive>
+
       </el-card>
+
     </div>
     <!--    弹层-->
     <add-employee :visible.sync="visible" />
