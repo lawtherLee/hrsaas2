@@ -1,5 +1,8 @@
 <template>
   <div class="user-info">
+    <router-link :to="`/employees/print/${userId}?type=personal`">
+      <i class="el-icon-printer" />
+    </router-link>
     <!-- 个人信息 -->
     <el-form label-width="220px">
       <!-- 工号 入职时间 -->

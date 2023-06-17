@@ -15,6 +15,10 @@ import * as directives from '@/directives'
 
 import Component from '@/components'
 import * as filters from '@/filters'
+import Print from 'vue-print-nb'
+
+// 打印功能
+Vue.use(Print)
 
 // 全局注册过滤器
 for (const key in filters) {
