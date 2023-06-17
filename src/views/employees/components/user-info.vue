@@ -58,6 +58,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
+            <upload-img ref="staffPhoto" @onSuccess="saveEmployeePic" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -91,6 +92,7 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <upload-img ref="myStaffPhoto" @onSuccess="saveEmployeePic2" />
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -466,18 +468,30 @@ export default {
     this.getPersonalDetail()
   },
   methods: {
+    saveEmployeePic(url) {
+      console.log(url)
+      this.userInfo.staffPhoto = url
+    },
+    saveEmployeePic2(url) {
+      this.formData.staffPhoto = url
+    },
+    // 上
     async getUserDetail() {
       this.userInfo = await getUserDetailById(this.userId)
+      this.$refs.staffPhoto.fileList = [{ url: this.userInfo.staffPhoto }]
     },
     // 获取个人详情下面表单数据
     async getPersonalDetail() {
       this.formData = await getPersonalDetailAPI(this.userId) // 获取员工数据
+      this.$refs.myStaffPhoto.fileList = [{ url: this.formData.staffPhoto }]
     },
-    // 保存
+    // 保存（上）
     async saveUserBaseInfo() {
+      if (this.$refs.staffPhoto.loading) return this.$message.error('图片还未上传完成')
       await saveUserDetailByIdAPI(this.userInfo)
       this.$message.success('修改成功')
     },
+    // （下）
     async onSaveOtherInfo() {
       await updatePersonalAPI(this.formData)
       this.$message.success('保存成功')
