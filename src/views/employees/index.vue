@@ -5,13 +5,16 @@ import EmployeeEnum from '@/api/constant/employees'
 import { formatTime } from '@/filters'
 import AddEmployee from '@/views/employees/components/add-employee.vue'
 import FileSaver from 'file-saver'
-import router from '@/router' // 员工导出
+import router from '@/router'
+import AssignRole from '@/views/employees/components/assign-role.vue' // 员工导出
 
 export default defineComponent({
   name: 'index',
-  components: { AddEmployee },
+  components: { AssignRole, AddEmployee },
   data() {
     return {
+      currentId: '',
+      visibleRole: false,
       loading: false,
       list: [],
       page: {
@@ -69,8 +72,14 @@ export default defineComponent({
       } catch (err) {
         console.log(err)
       }
+    },
+    // 分配角色
+    showAssignDia(id) {
+      this.currentId = id
+      this.visibleRole = true
     }
   },
+
   created() {
     this.getEmployeeList()
   }
@@ -116,7 +125,7 @@ export default defineComponent({
               <el-button size="small" type="text">转正</el-button>
               <el-button size="small" type="text">调岗</el-button>
               <el-button size="small" type="text">离职</el-button>
-              <el-button size="small" type="text">角色</el-button>
+              <el-button size="small" type="text" @click="showAssignDia(row.id)">角色</el-button>
               <el-button size="small" type="text" @click="delEmployee(row.id)">删除</el-button>
             </template>
           </el-table-column>
@@ -137,6 +146,7 @@ export default defineComponent({
     </div>
     <!--    弹层-->
     <add-employee :visible.sync="visible" />
+    <assign-role :user-id="currentId" :visible.sync="visibleRole" />
   </div>
 </template>
 
