@@ -59,7 +59,8 @@ export function importEmployeeAPI(data) {
 
 export function exportEmployeeAPI() {
   return request({
-    url: '/sys/user/export',
+    // url: '/sys/user/export',
+    url: '/employees/export/6',
     // 改变接收数据的类型
     responseType: 'blob' // 使用blob接收二进制文件流
   })

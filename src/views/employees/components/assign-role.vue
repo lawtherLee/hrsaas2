@@ -30,7 +30,7 @@ export default defineComponent({
     async getRoleList() {
       const { rows } = await getRoleListAPI()
       this.list = rows
-      console.log(this.list)
+      // console.log(this.list)
     },
     onOpen() {
       this.getRoleList()
