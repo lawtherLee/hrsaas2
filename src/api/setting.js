@@ -52,3 +52,23 @@ export function updateRoleAPI(data) {
     data
   })
 }
+
+// 给角色分配权限
+export function assignPermAPI(data) {
+  return request({
+    url: '/sys/role/assignPrem',
+    method: 'put',
+    data
+  })
+}
+
+/**
+ * 获取角色详情
+ * @param {String} id 角色id
+ * @returns promise
+ */
+export const getRoleDetailAPI = (id) => {
+  return request({
+    url: '/sys/role/' + id
+  })
+}

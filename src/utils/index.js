@@ -122,7 +122,7 @@ export function param2Obj(url) {
  * 组织架构
  * 封装一个函数 找到第一层数据
  * @param list 需要处理的数据
- * @param rootValue 父元素的id
+ * @param rootValue
  * @returns {*[]} 接收找到的元素并返回
  */
 export function tranListToTreeData(list, rootValue) {

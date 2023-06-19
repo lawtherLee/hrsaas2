@@ -1,6 +1,16 @@
 <script>
 import { defineComponent } from 'vue'
-import { addRoleAPI, deleteRoleAPI, getCompanyInfoAPI, getRoleListAPI, updateRoleAPI } from '@/api/setting'
+import {
+  addRoleAPI,
+  assignPermAPI,
+  deleteRoleAPI,
+  getCompanyInfoAPI,
+  getRoleDetailAPI,
+  getRoleListAPI,
+  updateRoleAPI
+} from '@/api/setting'
+import { tranListToTreeData } from '@/utils/'
+import { getPermissionListAPI } from '@/api/permisson'
 
 export default defineComponent({
   name: 'index',
@@ -27,7 +37,15 @@ export default defineComponent({
           trigger: 'blur'
         }
       },
-      companyForm: {}
+      companyForm: {},
+      showPermDialog: false,
+      defaultProps: {
+        label: 'name'
+      },
+      permData: [], // 专门用来接收权限数据 树形数据
+      selectCheck: [], // 定义一个数组来接收 已经选中的节点
+      roleId: null, // 用来记录分配角色的id
+      loading: false
     }
   },
 
@@ -110,6 +128,23 @@ export default defineComponent({
     // 获取公司信息
     async getCompanyInfo() {
       this.companyForm = await getCompanyInfoAPI(this.$store.state.user.userInfo.companyId)
+    },
+    // 关闭分配权限弹窗
+    btnPermCancel() {
+      this.selectCheck = [] // 重置数据
+      this.showPermDialog = false
+    },
+    async assignPerm(id) {
+      this.permData = tranListToTreeData(await getPermissionListAPI(), '0')
+      this.roleId = id
+      const { permIds } = await getRoleDetailAPI(id) // permIds是当前角色所拥有的权限点数据
+      this.selectCheck = permIds
+      this.showPermDialog = true
+    },
+    async btnPermOK() {
+      await assignPermAPI({ permIds: this.$refs.permTree.getCheckedKeys(), id: this.roleId })
+      this.$message.success('分配权限成功')
+      this.btnPermCancel()
     }
   },
 
@@ -155,7 +190,7 @@ export default defineComponent({
                 </template>
                 <!--                非编辑状态-->
                 <template v-else>
-                  <el-button size="small" type="success">分配权限</el-button>
+                  <el-button size="small" type="success" @click="assignPerm(row.id)">分配权限</el-button>
                   <el-button size="small" type="primary" @click="btnEdit(row)">编辑</el-button>
                   <el-button size="small" type="danger" @click="deleteRole(row.id)">删除</el-button>
                 </template>
@@ -212,6 +247,30 @@ export default defineComponent({
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addRole">新增角色</el-button>
       </span>
+    </el-dialog>
+
+    <el-dialog :visible="showPermDialog" title="分配权限" @close="btnPermCancel">
+      <!-- 权限是一颗树 -->
+      <!-- 将数据绑定到组件上 -->
+      <!-- check-strictly 如果为true 那表示父子勾选时  不互相关联 如果为false就互相关联 -->
+      <!-- id作为唯一标识 -->
+      <el-tree
+        ref="permTree"
+        :check-strictly="true"
+        :data="permData"
+        :default-checked-keys="selectCheck"
+        :default-expand-all="true"
+        :props="defaultProps"
+        :show-checkbox="true"
+        node-key="id"
+      />
+      <!-- 确定 取消 -->
+      <el-row slot="footer" justify="center" type="flex">
+        <el-col :span="6">
+          <el-button size="small" type="primary" @click="btnPermOK">确定</el-button>
+          <el-button size="small" @click="btnPermCancel">取消</el-button>
+        </el-col>
+      </el-row>
     </el-dialog>
   </div>
 </template>
