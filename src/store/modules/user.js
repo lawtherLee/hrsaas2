@@ -1,5 +1,6 @@
 import { getUserDetailById, getUserInfoAPI, login } from '@/api/user'
 import { getToken, removeToken, setTimeStamp, setToken } from '@/utils/auth'
+import { resetRouter } from '@/router'
 
 export default {
   namespaced: true,
@@ -40,6 +41,8 @@ export default {
     logout({ commit }) {
       commit('REMOVE_TOKEN')
       commit('REMOVE_USERINFO')
+      resetRouter()
+      commit('permission/SET_ROUTERS', [], { root: true })
     },
     // 获取用户信息
     async getUserInfo({ commit }) {
@@ -47,7 +50,7 @@ export default {
       const baseInfo = await getUserDetailById(res.userId) // 获取头像
       const baseRes = { ...res, ...baseInfo } // 合并两个接口结果
       commit('SET_USERINFO', baseRes)
-      console.log(baseRes)
+      console.log('用户信息', baseRes)
       return baseRes
     }
   }

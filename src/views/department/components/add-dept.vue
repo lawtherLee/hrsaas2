@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
-import { getEmployeeSimple } from '@/api/employees'
+import { getEmployeeSimpleAPI } from '@/api/employees'
 import { addDepartmentsAPI, getDepartmentsAPI, updateDepartmentsAPI } from '@/api/departments'
 
 export default defineComponent({
@@ -98,7 +98,7 @@ export default defineComponent({
     },
 
     async getEmployeeSimple() {
-      this.peoples = await getEmployeeSimple()
+      this.peoples = await getEmployeeSimpleAPI()
     },
 
     async submit() {

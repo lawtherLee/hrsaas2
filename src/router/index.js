@@ -56,12 +56,11 @@ export const constantRoutes = [
 ]
 // 一次性导入所有动态路由
 const res = require.context('@/router/modules', false, /\.js$/)
-const asyncRoutes = res.keys().map(ele => res(ele).default)
-
+export const asyncRouters = res.keys().map(ele => res(ele).default)
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...asyncRoutes]
+  routes: [...constantRoutes, ...asyncRouters]
 })
 
 const router = createRouter()

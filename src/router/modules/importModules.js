@@ -4,6 +4,9 @@ export default {
   path: '/import',
   component: Layout,
   hidden: true,
+  meta: {
+    id: 'import'
+  },
   children: [
     {
       path: '',

@@ -20,7 +20,20 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       if (!store.getters.userId) { // 读取不到用户id才发请求重新获取，解决重复获取
-        await store.dispatch('user/getUserInfo') // 第一时间获取用户信息
+        // 动态路由第一步获取权限数据
+        const { roles } = await store.dispatch('user/getUserInfo') // 第一时间获取用户信息
+        console.log(roles, '动态路由表')
+        await store.dispatch('permission/filterRouters', roles)
+        // 2.进行路由筛选，路由规则中准备meta的id标识
+        // const filterRouters = asyncRouters.filter(item => {
+        //   return roles.menus.includes(item.meta.id)
+        // })
+        // 3.动态添加
+        // Router.addRoutes(filterRouters)
+        // 4.解决404
+        // Router.addRoutes([...filterRouters, { path: '*', redirect: '/404', hidden: true }])
+        next(to.path) // 动态添加的路由规则,后修的next必须是next(to.path)
+        // 5.store封装permission模块
       }
       next()
     }
