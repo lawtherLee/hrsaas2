@@ -8,11 +8,13 @@ import {
   getPermissionListAPI,
   updatePermissionAPI
 } from '@/api/permisson'
+import points from '@/api/constant/permission'
 
 export default defineComponent({
   name: 'index',
   data() {
     return {
+      points,
       list: [],
       formData: {
         name: '', // 名称
@@ -118,7 +120,13 @@ export default defineComponent({
         <el-table-column align="center" label="描述" prop="description" />
         <el-table-column align="center" label="操作">
           <template v-slot="{row}">
-            <el-button v-if="row.type === 1" type="text" @click="addPermission(row.id,2)">添加</el-button>
+            <el-button
+              v-if="row.type === 1"
+              v-hasPermission="points.user.add"
+              type="text"
+              @click="addPermission(row.id,2)"
+            >添加
+            </el-button>
             <el-button type="text" @click="editPermission(row.id)">编辑</el-button>
             <el-button type="text" @click="delPermission(row.id)">删除</el-button>
           </template>

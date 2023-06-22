@@ -1,3 +1,5 @@
+import store from '@/store'
+
 export const imgErr = {
   inserted(dom, option) {
     // options是 指令中的变量的解释  其中有一个属性叫做 value
@@ -9,6 +11,18 @@ export const imgErr = {
       // 当图片出现异常的时候 会将指令配置的默认图片设置为该图片的内容
       // dom可以注册error事件
       dom.src = option.value
+    }
+  }
+}
+
+export const hasPermission = {
+  inserted(dom, option) {
+    function has(point) {
+      return store.state.permission.roles.points.includes(point)
+    }
+
+    if (!has(option.value)) {
+      dom.remove()
     }
   }
 }
