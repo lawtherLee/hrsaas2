@@ -3,7 +3,7 @@ import Layout from '@/layout/index.vue'
 export default {
   path: '/permission',
   meta: {
-    id: 'permission'
+    id: 'permissions'
   },
   component: Layout,
   children: [
