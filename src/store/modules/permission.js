@@ -15,7 +15,7 @@ export default {
       state.roles = payload
     }
   },
-  // 6. 注释234步 哈哈哈
+  // 6. 注释234步
   actions: {
     filterRouters({ commit }, roles) {
       const routers = asyncRouters.filter(item => {
@@ -23,8 +23,8 @@ export default {
       })
       router.addRoutes([...routers, { path: '*', redirect: '/404', hidden: true }])
       commit('SET_ROUTERS', [...routers, ...constantRoutes])
-      commit('SET_ROLES', roles)
+      commit('SET_ROLES', roles) // 这里面有用户按钮权限的字段
     }
   }
 }
-// 7.layout的sidebar组件
+// 8.layout的sidebar组件应用
