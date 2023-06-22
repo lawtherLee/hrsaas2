@@ -3,18 +3,27 @@
     <el-form label-width="100px">
       <el-form-item label="部门">
         <el-checkbox-group v-model="departmentChecks" style="display:inline-block">
-          <el-checkbox v-for="item in departmentList" :key="item.id" :label="item.id" @change="checkChange">{{ item.name }}</el-checkbox>
+          <el-checkbox v-for="item in departmentList" :key="item.id" :label="item.id" @change="checkChange">{{
+            item.name
+          }}
+          </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
       <el-form-item label="社保城市">
         <el-checkbox-group v-model="socialSecurityChecks" style="display:inline-block">
-          <el-checkbox v-for="item in cityList" :key="item.id" :label="item.id" @change="checkChange">{{ item.name }}</el-checkbox>
+          <el-checkbox v-for="item in cityList" :key="item.id" :label="item.id" @change="checkChange">{{
+            item.name
+          }}
+          </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
 
       <el-form-item label="公积金城市">
         <el-checkbox-group v-model="providentFundChecks" style="display:inline-block">
-          <el-checkbox v-for="item in cityList" :key="item.id" :label="item.id" @change="checkChange">{{ item.name }}</el-checkbox>
+          <el-checkbox v-for="item in cityList" :key="item.id" :label="item.id" @change="checkChange">{{
+            item.name
+          }}
+          </el-checkbox>
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -23,7 +32,7 @@
 
 <script>
 import { getCityList } from '@/api/common'
-import { getDepartments } from '@/api/departments'
+import { getDepartmentsAPI } from '@/api/departments'
 
 export default {
   name: 'SocialTool',
@@ -49,7 +58,7 @@ export default {
     },
     // 获取组织架构
     async getDepartments() {
-      const { depts } = await getDepartments()
+      const { depts } = await getDepartmentsAPI()
       this.departmentList = depts
     },
     checkChange() {
@@ -64,7 +73,7 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
 .cont-top-box {
   padding: 20px;
   background: #fff;

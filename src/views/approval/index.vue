@@ -11,18 +11,18 @@
       </page-tools>
       <!-- <ApprovalPageTool /> -->
       <el-card class="hr-block">
-        <el-table :data="list" style="width: 100%" :default-sort="{prop: 'date', order: 'descending'}">
+        <el-table :data="list" :default-sort="{prop: 'date', order: 'descending'}" style="width: 100%">
           <el-table-column type="selection" width="30" />
-          <el-table-column type="index" width="80" label="序号" />
-          <el-table-column prop="processName" label="审批类型" sortable />
-          <el-table-column prop="username" label="申请人" sortable />
-          <el-table-column prop="procCurrNodeUserName" label="当前审批人" sortable />
+          <el-table-column label="序号" type="index" width="80" />
+          <el-table-column label="审批类型" prop="processName" sortable />
+          <el-table-column label="申请人" prop="username" sortable />
+          <el-table-column label="当前审批人" prop="procCurrNodeUserName" sortable />
           <el-table-column label="审批发起时间" sortable>
             <template slot-scope="scope">
-              <span>{{ scope.row.procApplyTime | formatDate }}</span>
+              <span>{{ scope.row.procApplyTime | formatTime }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="process_state" label="审批状态" sortable>
+          <el-table-column label="审批状态" prop="process_state" sortable>
             <template slot-scope="scope">
               <span v-if="scope.row.processState==='0'" class="rovalsState">
                 <em class="sub" />已提交
@@ -43,17 +43,17 @@
           </el-table-column>
           <el-table-column label="操作" width="100">
             <template slot-scope="scope">
-              <el-button type="text" size="mini" @click="toDetail(scope.row)">
+              <el-button size="mini" type="text" @click="toDetail(scope.row)">
                 查看
               </el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- 分页组件 -->
-        <el-row type="flex" align="middle" justify="center" style="height: 60px">
+        <el-row align="middle" justify="center" style="height: 60px" type="flex">
           <el-pagination
-            :total="page.total"
             :page-size="page.pagesize"
+            :total="page.total"
             layout="prev, pager, next"
             @current-change="changePage"
           />
@@ -69,7 +69,7 @@ import { getApprovalList } from '@/api/approvals'
 
 export default {
   name: 'SocialTableIndex',
-  components: { },
+  components: {},
   data() {
     return {
       list: [],
@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     // 初始化数据
-    async  getApprovalList() {
+    async getApprovalList() {
       this.loading = true
       const { rows, total } = await getApprovalList({ year: 2018, ...this.page })
       this.page.total = total

@@ -1,16 +1,16 @@
 <template>
   <div class="add-form">
-    <el-dialog title="设置" :visible.sync="dialogFormVisible">
+    <el-dialog :visible.sync="dialogFormVisible" title="设置">
       <el-tabs v-model="activeName" style="margin-left:20px" @tab-click="handleClick">
         <el-tab-pane label="出勤设置" name="first">
           <el-form
             ref="dataForm"
-            :rules="rules"
             :model="formBase"
+            :rules="rules"
+            class="titmInfo"
             label-position="right"
             label-width="100px"
             style="width:700px;"
-            class="titmInfo"
           >
             <el-form-item label="部门：" prop="departmentId">
               <el-select v-model="formBase.departmentId" placeholder="请选择" @change="handleChange">
@@ -32,7 +32,8 @@
                 }"
                 :placeholder="formBase.morningStartTime"
                 class="timePicker"
-              />-
+              />
+              -
               <el-time-select
                 v-model="formBase.morningEndTime"
                 :picker-options="{
@@ -52,7 +53,8 @@
                 }"
                 :placeholder="formBase.afternoonStartTime"
                 class="timePicker"
-              />-
+              />
+              -
               <el-time-select
                 v-model="formBase.afternoonEndTime"
                 :picker-options="{
@@ -73,11 +75,11 @@
         <el-tab-pane label="请假设置" name="second">
           <el-form
             ref="leaveForm"
-            :rules="rules"
             :model="leaveBase"
+            :rules="rules"
+            class="titmInfo"
             label-position="right"
             label-width="80px"
-            class="titmInfo"
           >
             <el-form-item label="部门：" prop="departmentId">
               <el-select
@@ -96,7 +98,7 @@
           </el-form>
           <p>假期类型</p>
           <el-table ref="singleTable" :data="stateData.type" style="width: 100%">
-            <el-table-column prop="name" label="类型" width="200" />
+            <el-table-column label="类型" prop="name" width="200" />
             <el-table-column label="是否可用">
               <template slot-scope="scope">
                 <el-switch
@@ -111,7 +113,7 @@
             <el-button type="primary" @click="handleLeave">保存更新</el-button>
             <el-button @click="handleClose">取消</el-button>
           </div>
-          <el-alert type="warning" show-icon :closable="false" title>
+          <el-alert :closable="false" show-icon title type="warning">
             <template>
               <div class="tipInfo">
                 <p>事假 请假单位为0.5天 只能提交工作日内的请假单</p>
@@ -123,11 +125,11 @@
         <el-tab-pane label="扣款设置" name="third">
           <el-form
             ref="deductionsForm"
-            :rules="rules"
             :model="deductionsBase"
+            :rules="rules"
+            class="titmInfo"
             label-position="right"
             label-width="80px"
-            class="titmInfo"
           >
             <el-form-item label="部门：" prop="departmentId">
               <el-select
@@ -165,7 +167,8 @@
                       class="inputInfo"
                       value="30"
                       @input.native="handleInput($event)"
-                    />分钟
+                    />
+                    分钟
                   </p>
                   <div class="deductionInfo">
                     <p>
@@ -174,12 +177,14 @@
                         v-model="scope.row.timesUpperLimit"
                         class="inputInfo"
                         @input.native="handleInput($event)"
-                      />次，每次扣款
+                      />
+                      次，每次扣款
                       <el-input
                         v-model="scope.row.dedAmonutUpperLimit"
                         class="inputInfo"
                         @input.native="handleInput($event)"
-                      />元
+                      />
+                      元
                     </p>
                     <p>
                       迟到>
@@ -188,17 +193,20 @@
                         class="inputInfo"
                         disabled
                         @input.native="handleInput($event)"
-                      />次，每次扣款
+                      />
+                      次，每次扣款
                       <el-input
                         v-model="scope.row.dedAmonutLowerLimit"
                         class="inputInfo"
                         @input.native="handleInput($event)"
-                      />元
+                      />
+                      元
                     </p>
                   </div>
                   <p>
                     迟到>
-                    <el-input v-model="scope.row.periodLowerLimit" class="inputInfo" disabled />分钟
+                    <el-input v-model="scope.row.periodLowerLimit" class="inputInfo" disabled />
+                    分钟
                   </p>
                   <div class="deductionInfo">
                     <p>
@@ -207,12 +215,14 @@
                         v-model="scope.row.absenceTimesUpperLimt"
                         class="inputInfo"
                         disabled
-                      />次，每次矿工
+                      />
+                      次，每次矿工
                       <el-input
                         v-model="scope.row.absenceDays"
                         class="inputInfo"
                         @input.native="handleInputPoint($event)"
-                      />天
+                      />
+                      天
                     </p>
                   </div>
                 </div>
@@ -224,7 +234,8 @@
                       class="inputInfo"
                       value="30"
                       @input.native="handleInput($event)"
-                    />分钟
+                    />
+                    分钟
                   </p>
                   <div class="deductionInfo">
                     <p>
@@ -233,26 +244,31 @@
                         v-model="scope.row.timesUpperLimit"
                         class="inputInfo"
                         @input.native="handleInput($event)"
-                      />次，每次扣款
+                      />
+                      次，每次扣款
                       <el-input
                         v-model="scope.row.dedAmonutUpperLimit"
                         class="inputInfo"
                         @input.native="handleInput($event)"
-                      />元
+                      />
+                      元
                     </p>
                     <p>
                       早退>
-                      <el-input v-model="scope.row.timesLowerLimit" class="inputInfo" disabled />次，每次扣款
+                      <el-input v-model="scope.row.timesLowerLimit" class="inputInfo" disabled />
+                      次，每次扣款
                       <el-input
                         v-model="scope.row.dedAmonutLowerLimit"
                         class="inputInfo"
                         @input.native="handleInput($event)"
-                      />元
+                      />
+                      元
                     </p>
                   </div>
                   <p>
                     早退>
-                    <el-input v-model="scope.row.periodLowerLimit" class="inputInfo" disabled />分钟
+                    <el-input v-model="scope.row.periodLowerLimit" class="inputInfo" disabled />
+                    分钟
                   </p>
                   <div style="padding-left:120px;">
                     <p>
@@ -261,12 +277,14 @@
                         v-model="scope.row.absenceTimesUpperLimt"
                         class="inputInfo"
                         disabled
-                      />次，每次矿工
+                      />
+                      次，每次矿工
                       <el-input
                         v-model="scope.row.absenceDays"
                         class="inputInfo"
                         @input.native="handleInputPoint($event)"
-                      />天
+                      />
+                      天
                     </p>
                   </div>
                 </div>
@@ -277,7 +295,8 @@
                       v-model="scope.row.fineSalaryMultiples"
                       class="inputInfo"
                       @input.native="handleInput($event)"
-                    />倍工资处罚
+                    />
+                    倍工资处罚
                   </p>
                 </div>
               </template>
@@ -327,16 +346,17 @@
                       <template>
                         <el-time-select
                           v-model="item.ruleStartTime"
+                          :disabled="item.isTimeOff===false"
                           :picker-options="{
                             start: '01:00',
                             step: '00:15',
                             end: '23:59'
                           }"
                           style="width:100px;"
-                          :disabled="item.isTimeOff===false"
                         />
                         <el-time-select
                           v-model="item.ruleEndTime"
+                          :disabled="item.isTimeOff===false"
                           :picker-options="{
                             start: '01:00',
                             step: '00:15',
@@ -344,7 +364,6 @@
                             minTime: item.startTime
                           }"
                           style="width:100px;"
-                          :disabled="item.isTimeOff===false"
                         />
                       </template>
                     </div>
@@ -363,9 +382,9 @@
                 最晚有效期： 次年
                 <el-date-picker
                   v-model="overtimeBase.latestEffectDate"
-                  type="date"
                   placeholder="选择日期"
                   style="width:150px;"
+                  type="date"
                 />
               </div>
             </el-form-item>
@@ -373,7 +392,8 @@
               <div class="ruleInfo">
                 <p>
                   请假最小单位
-                  <el-input v-model="overtimeBase.unit" style="width:50px" />天
+                  <el-input v-model="overtimeBase.unit" style="width:50px" />
+                  天
                 </p>
               </div>
             </el-form-item>
@@ -389,21 +409,22 @@
 </template>
 
 <script>
-import { addEmployee } from '@/api/employees'
+import { addEmployeeAPI } from '@/api/employees'
 import { getInteger, getIntegerPoint } from '@/filters'
-import { getDepartments } from '@/api/departments'
+import { getDepartmentsAPI } from '@/api/departments'
 import {
   attendanceSave,
-  getAttendance,
-  leaveSave,
-  getLeave,
   deductionsSave,
+  getAttendance,
   getDeductions,
-  overtimeSave,
-  getOvertime
+  getLeave,
+  getOvertime,
+  leaveSave,
+  overtimeSave
 } from '@/api/attendances'
 import attendanceApi from '@/api/constant/attendance'
 import * as commonApi from '@/utils'
+
 export default {
   name: 'Add',
   props: [],
@@ -483,10 +504,10 @@ export default {
     // 业务方法
     // 获取部门
     async getDepartments() {
-      const { depts } = await getDepartments()
+      const { depts } = await getDepartmentsAPI()
       this.departmentData = depts
       this.formBase.departmentId = this.leaveBase.departmentId = this.deductionsBase.departmentId = this.overtimeBase.departmentId = this.departmentData[0].id
-      this.handleChange(this.leaveBase.departmentId)
+      await this.handleChange(this.leaveBase.departmentId)
     },
     // 弹层显示
     dialogFormV() {
@@ -510,7 +531,7 @@ export default {
       this.formBase.formOfEmployment = this.formOfEmployment
       this.$refs.dataForm.validate(async valid => {
         if (valid) {
-          await addEmployee(this.formBase)
+          await addEmployeeAPI(this.formBase)
           this.$emit('clearFormDate', this.formBase)
           this.formBase = {}
           this.$emit('doQuery', this.requestParameters)
@@ -544,7 +565,7 @@ export default {
       })
     },
     // 扣款选择部门
-    async  handleChangeDeductions(val) {
+    async handleChangeDeductions(val) {
       this.deductionsBase.departmentId = val
       this.stateData.departmentType.forEach(item => {
         item.departmentId = val
@@ -581,11 +602,11 @@ export default {
       if (data.dayOffConfigs !== null || data.extraDutyConfig !== null) {
         this.overtimeBase.departmentId = data.dayOffConfigs.departmentId
         this.overtimeBase.latestEffectDate =
-              data.dayOffConfigs.latestEffectDate
+          data.dayOffConfigs.latestEffectDate
         this.overtimeBase.unit = data.dayOffConfigs.unit
         this.overtimeBase.isClock = data.extraDutyConfig.isClock
         this.overtimeBase.isCompensationint =
-              data.extraDutyConfig.isCompensationint
+          data.extraDutyConfig.isCompensationint
       }
       if (this.overtimeBase.isClock === 0) {
         this.overtimeBase.isClock = true
@@ -614,7 +635,7 @@ export default {
       }
     },
     // 考勤配置保存更新
-    async  handleAttendance() {
+    async handleAttendance() {
       this.$refs.dataForm.validate(async valid => {
         if (valid) {
           await attendanceSave(this.formBase)
@@ -739,13 +760,16 @@ export default {
 }
 </script>
 
-<style rel="stylesheet/scss" lang="scss">
-.inputInfo{width: 50px;}
+<style lang="scss" rel="stylesheet/scss">
+.inputInfo {
+  width: 50px;
+}
 
 .attentInfo {
   p {
     padding: 3px 0;
   }
+
   .el-input--medium {
     .el-input__inner {
       height: 24px;
@@ -753,14 +777,17 @@ export default {
     }
   }
 }
+
 .titmInfo {
   .el-date-editor--timerange.el-input__inner {
     width: 280px;
   }
+
   .el-date-editor .el-range-separator {
     padding: 0 15px 0 0;
   }
 }
+
 .ruleInfo {
   .el-input--medium .el-input__inner {
     height: 30px;
@@ -769,21 +796,24 @@ export default {
 }
 </style>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style lang="scss" rel="stylesheet/scss" scoped>
 .tipInfo {
   p {
     padding: 5px 0;
   }
 }
+
 .titInfo {
   border-bottom: 1px solid #dcdfe6;
   height: 30px;
   line-height: 30px;
   padding: 0 0 15px;
 }
+
 .attentInfo {
   padding: 30px 15px 15px 80px;
 }
+
 .ruleInfo {
   .pad {
     padding-left: 80px;

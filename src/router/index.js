@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 /* Layout */
 import Layout from '@/layout'
+import userRouter from '@/router/modules/user'
 
 Vue.use(Router)
 
@@ -61,6 +62,7 @@ export const constantRoutes = [
       }
     ]
   },
+  userRouter,
   {
     path: '/404',
     component: () => import('@/views/404'),

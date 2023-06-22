@@ -10,6 +10,7 @@ export default {
   mutations: {
     SET_ROUTERS(state, payload) {
       state.routers = payload
+      console.log(state.routers)
     },
     SET_ROLES(state, payload) {
       state.roles = payload
@@ -18,6 +19,7 @@ export default {
   // 6. 注释234步
   actions: {
     filterRouters({ commit }, roles) {
+      console.log(asyncRouters)
       const routers = asyncRouters.filter(item => {
         return roles.menus.includes(item.meta.id)
       })

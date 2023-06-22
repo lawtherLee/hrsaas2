@@ -3,7 +3,7 @@ import Layout from '@/layout/index.vue'
 export default {
   path: '/setting',
   meta: {
-    id: '/settings'
+    id: 'settings'
   },
   component: Layout,
   children: [
