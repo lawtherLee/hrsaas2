@@ -6,6 +6,7 @@ import settings from './modules/settings'
 import user from './modules/user'
 import createPersistedState from 'vuex-persistedstate'
 import permission from '@/store/modules/permission'
+import tagsView from '@/store/modules/tagsView'
 
 Vue.use(Vuex)
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
     app,
     settings,
     user,
-    permission
+    permission,
+    tagsView
   },
   getters,
   plugins: [createPersistedState({ // 持久化

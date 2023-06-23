@@ -6,6 +6,8 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
+        <!--        tabView面包屑-->
+        <tags-view />
       </div>
       <app-main />
     </div>
@@ -15,10 +17,12 @@
 <script>
 import { AppMain, Navbar, Sidebar } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
+import TagsView from '@/components/TagsView/index.vue'
 
 export default {
   name: 'Layout',
   components: {
+    TagsView,
     Navbar,
     Sidebar,
     AppMain

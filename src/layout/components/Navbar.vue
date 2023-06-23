@@ -14,6 +14,8 @@
       <screen-full class="right-menu-item" />
       <!--      主题组件-->
       <theme-picker />
+      <!--      多语言-->
+      <lang />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
@@ -70,9 +72,11 @@ import { updatePasswordAPI } from '@/api/user'
 import defaultAvatar from '@/assets/common/head.jpg'
 import ScreenFull from '@/components/ScreenFull/index.vue'
 import ThemePicker from '@/components/ThemePicker/index.vue'
+import Lang from '@/components/lang/index.vue'
 
 export default {
   components: {
+    Lang,
     ThemePicker,
     ScreenFull,
     // Breadcrumb,
