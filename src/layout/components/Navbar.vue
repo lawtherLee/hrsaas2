@@ -10,6 +10,10 @@
     <!--    <breadcrumb class="breadcrumb-container" />-->
 
     <div class="right-menu">
+      <!--      全屏组件-->
+      <screen-full class="right-menu-item" />
+      <!--      主题组件-->
+      <theme-picker />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img
@@ -64,9 +68,13 @@ import { mapGetters } from 'vuex' // import Breadcrumb from '@/components/Breadc
 import Hamburger from '@/components/Hamburger'
 import { updatePasswordAPI } from '@/api/user'
 import defaultAvatar from '@/assets/common/head.jpg'
+import ScreenFull from '@/components/ScreenFull/index.vue'
+import ThemePicker from '@/components/ThemePicker/index.vue'
 
 export default {
   components: {
+    ThemePicker,
+    ScreenFull,
     // Breadcrumb,
     Hamburger
   },
@@ -194,6 +202,10 @@ export default {
 
     &:focus {
       outline: none;
+    }
+
+    .right-menu-item {
+      vertical-align: middle;
     }
 
     .right-menu-item {
