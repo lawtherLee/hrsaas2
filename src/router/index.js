@@ -75,8 +75,8 @@ export const constantRoutes = [
 const res = require.context('@/router/modules', false, /\.js$/)
 export const asyncRouters = res.keys().map(ele => res(ele).default)
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }), // 管理滚动行为 如果出现滚动 切换就让 让页面回到顶部
   routes: [...constantRoutes, ...asyncRouters]
 })
 
